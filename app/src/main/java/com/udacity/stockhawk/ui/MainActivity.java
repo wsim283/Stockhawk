@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");
     }
 
-
     /**
      * This method is a follow-up method from AddStockDialog.addStock
      * This method will just add the new stock via PrefUtils.addStock and then
@@ -183,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             error.setVisibility(View.GONE);
         }
         adapter.setCursor(data);
+
+        String invalidStockSymbol = PrefUtils.getInvalidStock(this);
+        if(invalidStockSymbol != null){
+            Toast.makeText(this,getString(R.string.error_stock_not_found, invalidStockSymbol),Toast.LENGTH_SHORT).show();
+        }
     }
 
 

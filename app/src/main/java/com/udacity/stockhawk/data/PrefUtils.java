@@ -88,4 +88,36 @@ public final class PrefUtils {
         editor.apply();
     }
 
+    public static void setInvalidStock(Context context, String symbol){
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(context.getString(R.string.pref_invalid_stock_key), symbol);
+        editor.apply();
+    }
+
+    /**
+     * a helper method to return the symbol of an invalid stock.
+     * This is called after an attempt to add/ ask a stock quote.
+     * This method will also dispose the sharedPref value because this is only used temporarily and not throughout the lifecycle of the app.
+     * @param context of the class that calls this method
+     * @return the symbol of the invalid stock. null if there is none
+     */
+    public static String getInvalidStock(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String defaultInvalidStockSymbol = context.getString(R.string.pref_invalid_stock_default);
+        String invalidStockKey = context.getString(R.string.pref_invalid_stock_key);
+        String symbol = prefs.getString(invalidStockKey, defaultInvalidStockSymbol);
+
+        if(symbol.equals(defaultInvalidStockSymbol)){
+            symbol = null;
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(invalidStockKey);
+        editor.apply();
+
+        return symbol;
+    }
+
 }

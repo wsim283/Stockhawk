@@ -15,6 +15,9 @@
     <string name="pref_display_mode_absolute_key">absolute</string>
     <string name="pref_display_mode_percentage_key">percentage</string>
 
+    <string name="pref_invalid_stock_key">invalid_stock</string>
+    <string name="pref_invalid_stock_default">invalid_stock_default</string>
+
     <string name="default_stocks_yahoo">YHOO</string>
     <string name="default_stocks_apple">AAPL</string>
     <string name="default_stocks_microsoft">MSFT</string>
