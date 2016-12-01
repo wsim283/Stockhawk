@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Timber.d("Symbol clicked: %s", symbol);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //Notify the widget that refresh state has changed.
         //parameter:Whether or not the view should show refresh progress.
         swipeRefreshLayout.setRefreshing(true);
-        onRefresh();
 
         QuoteSyncJob.initialize(this);
         getSupportLoaderManager().initLoader(STOCK_LOADER, null, this);
@@ -112,13 +113,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     /**
      *This method is called when the listener detects a swipe refresh gesture
-     *This method will call syncImmediately
+     *This method has been refactored by me (small refactor).
+     *Starter code's order of calls in onCreate (onRefresh before QuoteSyncJob.initialise) has a flaw.
+     * the case when there isn;t a connection but data has been loaded from previous use,
+     * the toast message "Will refresh when network available" will not be met as the adapter will be empty.
+     * since `syncImmediately` is run in background thread, it would not be able to load data in time to get to this case
+     * So we will firstly move the error checks in this method to another method called checkErrors
+     * Next we will remove onRefresh call from onCreate and checkError in onLoadFinished instead
      */
     @Override
     public void onRefresh() {
 
         QuoteSyncJob.syncImmediately(this);
+        checkErrors();
+    }
 
+    private void  checkErrors(){
         if (!networkUp() && adapter.getItemCount() == 0) {
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_network));
@@ -135,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             error.setVisibility(View.GONE);
         }
     }
-
     /**
      * This method is set in the "onClick" of our FloatingActionButton in activity_main.xml
      * This will just show our dialogActivity
@@ -187,6 +196,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if(invalidStockSymbol != null){
             Toast.makeText(this,getString(R.string.error_stock_not_found, invalidStockSymbol),Toast.LENGTH_SHORT).show();
         }
+
+        checkErrors();
     }
 
 
