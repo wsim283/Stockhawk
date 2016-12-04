@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -52,11 +53,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * simply tell us which stock we are pressing,
      * via a simple log library called Timber. This is just like our Logs, just made simple
+     * Refactored this to send an intent to DetailActivity
      * @param symbol symbol of the stock list item being clicked
      */
     @Override
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
+
+        Intent detailIntent = new Intent(MainActivity.this,DetailActivity.class);
+        detailIntent.putExtra(getString(R.string.clicked_symbol_key), symbol);
+        startActivity(detailIntent);
     }
 
 

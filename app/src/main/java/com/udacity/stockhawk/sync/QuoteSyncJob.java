@@ -80,13 +80,13 @@ public final class QuoteSyncJob {
 
                     // WARNING! Don't request historical data for a stock that doesn't exist!
                     // The request will hang forever X_x
-                    List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
-
+                    //changed this from the startercode, Weekly to Monthly
+                    List<HistoricalQuote> history = stock.getHistory(from, to, Interval.MONTHLY);
                     StringBuilder historyBuilder = new StringBuilder();
 
                     for (HistoricalQuote it : history) {
                         historyBuilder.append(it.getDate().getTimeInMillis());
-                        historyBuilder.append(", ");
+                        historyBuilder.append(",");
                         historyBuilder.append(it.getClose());
                         historyBuilder.append("\n");
                     }
