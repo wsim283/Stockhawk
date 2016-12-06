@@ -3,11 +3,11 @@ package com.udacity.stockhawk.ui;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.YAxis;
@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.Utility;
@@ -79,7 +78,6 @@ public class DetailActivity extends AppCompatActivity {
             cursor.moveToFirst();
             datesForDescription = new ArrayList<>();
             xAxisLabels = new ArrayList<>();
-
             String historyDataAsStr = cursor.getString(Contract.Quote.POSITION_HISTORY);
             String[] historyDataAsArr = historyDataAsStr.split("\n");
 

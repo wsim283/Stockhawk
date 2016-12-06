@@ -52,6 +52,9 @@
     <string name="lowest_highest_date_format">(%s)</string>
     <string name="chart_content_description">%s\'s Last 2 years closing price Report </string>
 
+    <string name="title_widget">Stock Falcon</string>
+
+
 
 
 </resources>

@@ -1,4 +1,21 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--Remember the rule of thumb for widget size in the lessons,
+    widget size = 70dp * n - 30dp, where n is number of columns in your main screen-->
+    <!--Remember that this is a collection widget,
+    which includes a ListView so let's make default min widget width 4 columns, so 70dp * 4 - 30dp = 250dp
+      and default min widget height to be 3 columns: 70dp * 3 - 30dp = 180dp-->
+    <dimen name="widget_min_default_width">250dp</dimen>
+    <dimen name="widget_min_default_height">180dp</dimen>
+
+
+    <!--keep the resize same because things in the widget might be too compressed-->
+    <dimen name="widget_min_resize_width">@dimen/widget_min_default_width</dimen>
+    <dimen name="widget_min_resize_height">@dimen/widget_min_default_height</dimen>
+
+
+    <dimen name="toolbar_default_height">48dp</dimen>
+    <dimen name="toolbar_default_elevation">4dp</dimen>
 </resources>

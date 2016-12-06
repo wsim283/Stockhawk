@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
+    android:background="@color/background"
+    android:id="@+id/widget"
+    android:orientation="vertical"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_default_height"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/toolbar_default_elevation">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/title_widget"
+            style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+    </FrameLayout>
+    <ListView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/widget_listview"
+        tools:listitem="@layout/stock_detail_widget_list_item" />
+</LinearLayout>
+
