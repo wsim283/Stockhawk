@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import timber.log.Timber;
+
 public final class PrefUtils {
 
     private PrefUtils() {
@@ -90,10 +92,13 @@ public final class PrefUtils {
 
     public static void setInvalidStock(Context context, String symbol){
 
+        removeStock(context, symbol);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(context.getString(R.string.pref_invalid_stock_key), symbol);
         editor.apply();
+        Timber.d("setInvalidStock gets called");
     }
 
     /**
@@ -117,6 +122,11 @@ public final class PrefUtils {
         editor.remove(invalidStockKey);
         editor.apply();
 
+        String exist = "FALSE";
+        if(prefs.contains(invalidStockKey)){
+            exist = "TRUE";
+        }
+        Timber.d("key still exist? %s", exist);
         return symbol;
     }
 

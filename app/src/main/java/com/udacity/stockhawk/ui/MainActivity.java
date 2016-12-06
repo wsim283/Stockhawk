@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     TextView error;
     private StockAdapter adapter;
 
+
+    boolean add = false;
     /**
      * simply tell us which stock we are pressing,
      * via a simple log library called Timber. This is just like our Logs, just made simple
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     void addStock(String symbol) {
         if (symbol != null && !symbol.isEmpty()) {
+
 
             if (networkUp()) {
                 swipeRefreshLayout.setRefreshing(true);
