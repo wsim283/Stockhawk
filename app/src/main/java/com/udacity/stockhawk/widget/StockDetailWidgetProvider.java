@@ -21,7 +21,7 @@ import com.udacity.stockhawk.ui.MainActivity;
 
 public class StockDetailWidgetProvider extends AppWidgetProvider {
 
-    private static final String GET_DETAIL = "android.com.udacity.stockhawk.GET_DETAIL";
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
@@ -40,7 +40,6 @@ public class StockDetailWidgetProvider extends AppWidgetProvider {
             PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
                     .addNextIntentWithParentStack(clickIntentTemplate)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            clickIntentTemplate.setAction(GET_DETAIL);
             views.setPendingIntentTemplate(R.id.widget_listview, clickPendingIntentTemplate);
             //views.setEmptyView(R.id.widget_listview, R.id.widget_empty);
 
@@ -53,7 +52,7 @@ public class StockDetailWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent.getAction().equals(GET_DETAIL)) {
+        if (intent.getAction().equals(QuoteSyncJob.ACTION_DATA_UPDATED)) {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                     new ComponentName(context, getClass()));
