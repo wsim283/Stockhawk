@@ -54,6 +54,10 @@
 
     <string name="title_widget">Stock Falcon</string>
 
+    <!--below needed for savedInstanceState-->
+    <string name="last_stock_selected" translatable="false">last_stock_selected</string>
+    <string name="chart_last_selected" translatable="false">chart_last_selected</string>
+
 
 
 

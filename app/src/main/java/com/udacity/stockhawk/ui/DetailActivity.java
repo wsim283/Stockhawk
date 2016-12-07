@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.ChartHighlighter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -61,8 +62,10 @@ public class DetailActivity extends AppCompatActivity {
     private ArrayList<String> xAxisLabels;
     private ArrayList<String> datesForDescription;
 
+    private float lastSelectedChartX = -1;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -96,6 +99,7 @@ public class DetailActivity extends AppCompatActivity {
                    Timber.d("value selected:%s, %f",xAxisLabels.get((int)e.getX()), e.getY());
                    selectedDateTextView.setText(datesForDescription.get((int)e.getX()));
                    selectedPriceTextView.setText(NumberFormat.getCurrencyInstance(Locale.getDefault()).format(e.getY()));
+                   lastSelectedChartX = e.getX();
                }
 
                @Override
@@ -115,12 +119,24 @@ public class DetailActivity extends AppCompatActivity {
             highestPriceDateTextView.setText(getString(R.string.lowest_highest_date_format,datesForDescription.get(highestPriceIndex)));
 
 
+            //if we rotate the device, we want the selected value to remain. so we need to use savedInstanceState
+            //if there is no selected value, then we just set the latest data to be selected
+            String lastSelectedKey = getString(R.string.chart_last_selected);
+            if(savedInstanceState != null && savedInstanceState.containsKey(lastSelectedKey)){
+                stockDetailChart.highlightValue(savedInstanceState.getFloat(lastSelectedKey), 0);
+            }else {
+                stockDetailChart.highlightValue(xAxisLabels.size() - 1, 0);
+            }
             cursor.close();
         }
+    }
 
-
-
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(lastSelectedChartX != -1){
+            outState.putFloat(getString(R.string.chart_last_selected), lastSelectedChartX);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     private LineData prepareChart(List<Entry> entries, String symbol) {

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
+    private int lastSelectedStockPos = -1;
 
 
     boolean add = false;
@@ -59,15 +61,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * @param symbol symbol of the stock list item being clicked
      */
     @Override
-    public void onClick(String symbol) {
+    public void onClick(String symbol, int position) {
         Timber.d("Symbol clicked: %s", symbol);
 
+        lastSelectedStockPos = position;
         Intent detailIntent = new Intent(MainActivity.this,DetailActivity.class);
         detailIntent.putExtra(getString(R.string.clicked_symbol_key), symbol);
         startActivity(detailIntent);
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        if(lastSelectedStockPos != -1){
+            outState.putInt(getString(R.string.last_stock_selected), lastSelectedStockPos);
+        }
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         }).attachToRecyclerView(recyclerView);
 
+        String lastStockSelectedKey = getString(R.string.last_stock_selected);
+        if(savedInstanceState != null && savedInstanceState.containsKey(lastStockSelectedKey)){
+            lastSelectedStockPos = savedInstanceState.getInt(lastStockSelectedKey);
+        }
 
     }
 
@@ -207,6 +220,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         checkErrors();
+
+        if(lastSelectedStockPos != -1){
+            recyclerView.smoothScrollToPosition(lastSelectedStockPos);
+        }
     }
 
 
