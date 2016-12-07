@@ -28,7 +28,8 @@
             app:layout_rowWeight="1"
             android:gravity="center_horizontal"
             tools:hint="November, 2016"
-            android:text="@string/chart_tip"/>
+            android:text="@string/chart_tip"
+            android:textStyle="italic"/>
 
         <TextView
             android:layout_width="match_parent"
